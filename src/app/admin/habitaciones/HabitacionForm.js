@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Formulario de creación y edición de habitación (room=null crear, room con datos editar).
+// Gestiona también la subida y eliminación de imágenes en el bucket "habitaciones" de Supabase Storage.
 export default function HabitacionForm({ room }) {
   const router = useRouter()
   const [nombre, setNombre] = useState(room?.nombre ?? '')
@@ -16,6 +18,7 @@ export default function HabitacionForm({ room }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  // Sube la imagen al bucket con nombre único (timestamp + random), obtiene la URL pública y la añade al estado
   async function handleImagenChange(e) {
     const archivo = e.target.files?.[0]
     if (!archivo) return
@@ -41,16 +44,28 @@ export default function HabitacionForm({ room }) {
       .from('habitaciones')
       .getPublicUrl(nombreArchivo)
 
-    setImagenes(prev => [...prev, publicUrl])
+    setImagenes(prev => {
+      const nuevas = []
+      for (const img of prev) nuevas.push(img)
+      nuevas.push(publicUrl)
+      return nuevas
+    })
     setSubiendo(false)
     e.target.value = ''
   }
 
+  // Elimina la imagen del bucket de Storage y la quita del array local
   async function eliminarImagen(url) {
     const supabase = createClient()
     const nombreArchivo = url.split('/').pop()
     await supabase.storage.from('habitaciones').remove([nombreArchivo])
-    setImagenes(prev => prev.filter(img => img !== url))
+    setImagenes(prev => {
+      const nuevas = []
+      for (const img of prev) {
+        if (img !== url) nuevas.push(img)
+      }
+      return nuevas
+    })
   }
 
   async function handleSubmit(e) {

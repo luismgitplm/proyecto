@@ -1,11 +1,21 @@
 import { createClient } from '@/lib/supabase/server'
 
+// Devuelve los tipos únicos de habitaciones activas para poblar las pills del filtro
 export async function getTipos() {
   const supabase = await createClient()
   const { data } = await supabase.from('rooms').select('tipo').eq('activo', true)
-  return [...new Set(data?.map(r => r.tipo) ?? [])]
+  const filas = data ?? []
+  const tipos = []
+  for (const fila of filas) {
+    if (!tipos.includes(fila.tipo)) {
+      tipos.push(fila.tipo)
+    }
+  }
+  return tipos
 }
 
+// Devuelve habitaciones activas aplicando filtro de tipo y/o disponibilidad de fechas.
+// Si hay fechas, excluye las habitaciones con reservas confirmadas que se solapan con el rango pedido.
 export async function getHabitacionesDisponibles({ fecha_entrada, fecha_salida, tipo } = {}) {
   const supabase = await createClient()
   let query = supabase.from('rooms').select('*').eq('activo', true)
@@ -20,7 +30,11 @@ export async function getHabitacionesDisponibles({ fecha_entrada, fecha_salida, 
       .lt('fecha_entrada', fecha_salida)
       .gt('fecha_salida', fecha_entrada)
 
-    const idsOcupadas = reservadas?.map(b => b.habitacion_id) ?? []
+    const filasBloqueadas = reservadas ?? []
+    const idsOcupadas = []
+    for (const b of filasBloqueadas) {
+      idsOcupadas.push(b.habitacion_id)
+    }
     if (idsOcupadas.length > 0) {
       query = query.not('id', 'in', `(${idsOcupadas.join(',')})`)
     }

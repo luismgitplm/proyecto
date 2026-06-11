@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 
+// Formulario de registro: llama a signUp pasando full_name como metadata;
+// el trigger handle_new_user en Supabase crea automáticamente la fila en profiles
 export default function RegistroPage() {
   const router = useRouter()
   const [fullName, setFullName] = useState('')

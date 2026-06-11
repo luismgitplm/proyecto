@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Menú hamburguesa visible solo en móvil: abre un dropdown con los mismos enlaces que la nav
+// de escritorio; oculta el enlace "Inicio" si ya se está en /
 export default function NavMobile({ user, rol }) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()

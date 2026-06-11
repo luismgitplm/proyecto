@@ -4,12 +4,15 @@ import LogoutButton from './LogoutButton'
 import NavInicio from './NavInicio'
 import NavMobile from './NavMobile'
 
+// Barra de navegación principal: obtiene usuario y rol en el servidor para mostrar los enlaces correctos.
+// Sticky en la parte superior; adapta su contenido según si hay sesión activa y si el usuario es admin.
 export default async function Header() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   let rol = null
   if (user) {
+    // Segunda query para conocer el rol y decidir si mostrar el enlace Admin
     const { data: profile } = await supabase
       .from('profiles')
       .select('rol')

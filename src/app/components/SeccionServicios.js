@@ -52,6 +52,7 @@ function IconSpa() {
   )
 }
 
+// Array estático con los 5 servicios del hotel: icono SVG, nombre y descripción corta
 const SERVICIOS = [
   { icon: <IconWifi />,       nombre: 'WiFi gratuito',     desc: 'En todas las zonas del hotel' },
   { icon: <IconParking />,    nombre: 'Parking incluido',  desc: 'Plazas disponibles 24 h' },
@@ -60,6 +61,7 @@ const SERVICIOS = [
   { icon: <IconSpa />,        nombre: 'Spa & Wellness',    desc: 'Relax y bienestar total' },
 ]
 
+// Grid responsivo de servicios (2→3→5 columnas), sección estática entre el hero y los filtros
 export default function SeccionServicios() {
   return (
     <section className="border-b border-zinc-200 py-12 px-4">

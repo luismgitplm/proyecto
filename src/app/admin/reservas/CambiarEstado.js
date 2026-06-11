@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Botón optimista verde/gris que alterna el estado de una reserva entre confirmada y cancelada;
+// el cambio visual es inmediato y se revierte si el servidor falla
 export default function CambiarEstado({ bookingId, estado }) {
   const router = useRouter()
   const [optimisticEstado, setOptimisticEstado] = useState(estado)

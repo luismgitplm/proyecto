@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+// Barra de filtros del catálogo: fechas de entrada/salida + pills por tipo.
+// Los cambios de tipo aplican el filtro inmediatamente sin necesidad de pulsar Buscar.
 export default function FiltrosCatalogo({ fechaEntrada, fechaSalida, tipo, tipos }) {
   const router = useRouter()
   const hoy = new Date().toISOString().split('T')[0]
@@ -11,6 +13,7 @@ export default function FiltrosCatalogo({ fechaEntrada, fechaSalida, tipo, tipos
   const [salida, setSalida]   = useState(fechaSalida ?? '')
   const [tipoSel, setTipoSel] = useState(tipo ?? '')
 
+  // Construye los searchParams con los filtros activos y navega sin resetear el scroll
   function handleSubmit(e) {
     e.preventDefault()
     const params = new URLSearchParams()
@@ -20,6 +23,7 @@ export default function FiltrosCatalogo({ fechaEntrada, fechaSalida, tipo, tipos
     router.push(`/?${params.toString()}`, { scroll: false })
   }
 
+  // Al pulsar una pill de tipo aplica el filtro inmediatamente conservando las fechas ya seleccionadas
   function navegarConTipo(t) {
     setTipoSel(t)
     const params = new URLSearchParams()
@@ -29,6 +33,7 @@ export default function FiltrosCatalogo({ fechaEntrada, fechaSalida, tipo, tipos
     router.push(`/?${params.toString()}`, { scroll: false })
   }
 
+  // Borra todos los filtros y vuelve al catálogo completo
   function handleLimpiar() {
     setEntrada('')
     setSalida('')

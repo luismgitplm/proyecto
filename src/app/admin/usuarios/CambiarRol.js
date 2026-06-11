@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Botón optimista azul/gris que alterna el rol entre "admin" y "user";
+// el cambio visual es inmediato y se revierte si el servidor falla
 export default function CambiarRol({ userId, rol }) {
   const router = useRouter()
   const [optimisticRol, setOptimisticRol] = useState(rol)

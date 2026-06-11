@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import ReservaForm from './ReservaForm'
 
+// Página de reserva: verifica sesión activa (redirige a login si no) y carga los datos de la habitación
 export default async function ReservarPage({ params }) {
   const { id } = await params
   const supabase = await createClient()

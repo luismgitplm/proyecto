@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Cancelación con confirmación de dos pasos y UI optimista: el estado visual cambia antes
+// de confirmar con Supabase y se revierte automáticamente si la petición falla
 export default function CancelarReserva({ bookingId }) {
   const router = useRouter()
   const [confirmando, setConfirmando] = useState(false)

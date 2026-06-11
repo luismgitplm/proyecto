@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import ToggleActivo from './ToggleActivo'
 
+// Lista todas las habitaciones (activas e inactivas) con toggle de estado y acceso a edición
 export default async function AdminHabitacionesPage() {
   const supabase = await createClient()
   const { data: rooms } = await supabase

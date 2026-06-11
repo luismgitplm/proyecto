@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 
+// Dashboard de estadísticas: lanza 5 queries en paralelo para obtener los datos de las tarjetas
 export default async function AdminDashboard() {
   const supabase = await createClient()
   const hoy = new Date().toISOString().split('T')[0]
@@ -19,7 +20,10 @@ export default async function AdminDashboard() {
     supabase.from('bookings').select('precio_total').eq('estado', 'confirmed').gte('created_at', primeroDeMes),
   ])
 
-  const ingresosMes = ingresosData?.reduce((sum, b) => sum + Number(b.precio_total), 0) ?? 0
+  let ingresosMes = 0
+  for (const b of ingresosData ?? []) {
+    ingresosMes += Number(b.precio_total)
+  }
   const total = (totalConfirmadas ?? 0) + (totalCanceladas ?? 0)
   const tasaCancelacion = total > 0 ? ((totalCanceladas ?? 0) / total * 100).toFixed(1) : '0.0'
 
@@ -38,6 +42,7 @@ export default async function AdminDashboard() {
   )
 }
 
+// Tarjeta blanca con etiqueta y valor numérico grande; reutilizada para las 6 estadísticas
 function StatCard({ label, value }) {
   return (
     <div className="bg-white border border-zinc-200 rounded-2xl p-5">

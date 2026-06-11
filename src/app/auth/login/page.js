@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 
+// Formulario de inicio de sesión: llama a signInWithPassword y redirige a / si tiene éxito
 export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')

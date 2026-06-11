@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+// Grid de cards de habitaciones (1→2→3 columnas); muestra conteo de resultados si hay filtros activos
 export default function CatalogoHabitaciones({ rooms, hayFiltros }) {
   return (
     <main className="max-w-6xl mx-auto px-4 py-12">

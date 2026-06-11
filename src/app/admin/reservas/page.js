@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import CambiarEstado from './CambiarEstado'
 import FiltrosReservas from './FiltrosReservas'
 
+// Lista de reservas filtrable por estado y rango de fechas mediante searchParams
 export default async function AdminReservasPage({ searchParams }) {
   const { estado, desde, hasta } = await searchParams
   const supabase = await createClient()

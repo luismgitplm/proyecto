@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Botón optimista verde/gris que activa o desactiva una habitación del catálogo público;
+// el cambio visual es inmediato y se revierte si el servidor falla
 export default function ToggleActivo({ roomId, activo }) {
   const router = useRouter()
   const [optimisticActivo, setOptimisticActivo] = useState(activo)

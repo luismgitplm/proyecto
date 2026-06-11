@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+// Layout compartido del panel admin: sidebar de navegación a la izquierda en escritorio,
+// barra horizontal en móvil, con los cuatro enlaces del panel
 export default function AdminLayout({ children }) {
   return (
     <div className="flex flex-col sm:flex-row flex-1">

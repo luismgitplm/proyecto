@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import CambiarRol from './CambiarRol'
 
+// Lista todos los usuarios registrados con nombre, email y botón para cambiar su rol
 export default async function AdminUsuariosPage() {
   const supabase = await createClient()
   const { data: users } = await supabase

@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Cierra la sesión de Supabase y redirige a la página principal
 export default function LogoutButton() {
   const router = useRouter()
 

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import CancelarReserva from './CancelarReserva'
 
+// Lista las reservas del usuario divididas en "Próximas" (fecha_salida ≥ hoy) y "Pasadas"
 export default async function ReservasPage() {
   const supabase = await createClient()
 
@@ -17,8 +18,15 @@ export default async function ReservasPage() {
 
   const today = new Date().toISOString().split('T')[0]
 
-  const proximas = bookings?.filter(b => b.fecha_salida >= today) ?? []
-  const pasadas  = bookings?.filter(b => b.fecha_salida < today)  ?? []
+  const proximas = []
+  const pasadas = []
+  for (const booking of bookings ?? []) {
+    if (booking.fecha_salida >= today) {
+      proximas.push(booking)
+    } else {
+      pasadas.push(booking)
+    }
+  }
 
   return (
     <>
@@ -61,6 +69,7 @@ export default async function ReservasPage() {
   )
 }
 
+// Tarjeta individual de reserva: calcula si la cancelación está disponible (>48h) o bloqueada (<48h)
 function ReservaCard({ booking }) {
   const ahora = new Date()
   const fechaEntrada = new Date(booking.fecha_entrada + 'T00:00:00')
@@ -104,6 +113,7 @@ function ReservaCard({ booking }) {
   )
 }
 
+// Badge visual verde (confirmada) o gris (cancelada) según el estado de la reserva
 function EstadoBadge({ estado }) {
   const styles = { confirmed: 'bg-green-50 text-green-700', cancelled: 'bg-zinc-100 text-zinc-500' }
   const labels = { confirmed: 'Confirmada', cancelled: 'Cancelada' }

@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 
+// Ejecuta en cada petición: redirige a /auth/login si la ruta es privada y no hay sesión,
+// y a / si la ruta es /admin y el usuario no tiene rol admin.
 export async function middleware(request) {
   let supabaseResponse = NextResponse.next({ request })
 

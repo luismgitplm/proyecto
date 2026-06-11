@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+// Detalle de habitación: carga por id, muestra 404 si no existe o está inactiva
 export default async function HabitacionPage({ params }) {
   const { id } = await params
   const supabase = await createClient()

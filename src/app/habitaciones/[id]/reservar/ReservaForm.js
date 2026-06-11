@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+// Formulario de reserva: calcula precio total en tiempo real (noches × precio/noche).
+// Valida disponibilidad contra la BD antes de insertar y avisa si la entrada es en menos de 48h.
 export default function ReservaForm({ room, userId }) {
   const router = useRouter()
   const [checkIn, setCheckIn] = useState('')
@@ -26,6 +28,8 @@ export default function ReservaForm({ room, userId }) {
 
   const advertencia48h = horasHastaEntrada !== null && horasHastaEntrada > 0 && horasHastaEntrada <= 48
 
+  // Verifica solapamiento de fechas con reservas confirmadas antes de guardar;
+  // si hay conflicto muestra error sin crear la reserva
   async function handleSubmit(e) {
     e.preventDefault()
     setError(null)
